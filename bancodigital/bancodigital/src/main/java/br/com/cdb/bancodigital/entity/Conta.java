@@ -2,6 +2,9 @@ package br.com.cdb.bancodigital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Conta {
     @Id
@@ -11,6 +14,11 @@ public class Conta {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cartao> cartaos = new ArrayList<>();
+
+    private TipoConta tipo;
 
     public Cliente getCliente() {
         return cliente;
@@ -39,16 +47,13 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    /*public String getTipoConta() {
-        return tipoConta;
-    }**/
-
-    public void setTipoConta(TipoConta tipoConta) {
-        this.tipoConta = tipoConta;
+    public void setTipoConta(String tipoConta) {
+        this.tipoConta = TipoConta.valueOf(tipoConta.toUpperCase());
     }
 
-    public Long getNumeroConta() {
-        return numeroConta;
+    public String getTipoConta() {
+        return tipoConta.name();
     }
+
 
 }

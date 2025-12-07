@@ -12,10 +12,11 @@ public class ContaService {
     @Autowired
     private ContaRepository contaRepository;
 
-    public Conta salvarConta(Cliente cliente){
+    public Conta salvarConta(Cliente cliente, String tipoConta){
         Conta conta = new Conta();
         conta.setCliente(cliente);
         conta.setSaldo(0);
+        conta.setTipoConta(tipoConta);
         return contaRepository.save(conta);
     }
 

@@ -40,4 +40,5 @@ public class Cliente {
     public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
+
 }

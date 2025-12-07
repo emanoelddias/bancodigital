@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 /*
 #### Conta
 - **POST /contas/{id}/transferencia** - Realizar uma transferência entre contas
-- **POST /contas/{id}/pix** - Realizar um pagamento via Pix
-- **PUT /contas/{id}/manutencao** - Aplicar taxa de manutenção mensal (para conta corrente)
-- **PUT /contas/{id}/rendimentos** - Aplicar rendimentos (para conta poupança)
+- **POST /contas/{id}/pix**           - Realizar um pagamento via Pix
+- **PUT  /contas/{id}/manutencao**    - Aplicar taxa de manutenção mensal (para conta corrente)
+- **PUT  /contas/{id}/rendimentos**   - Aplicar rendimentos (para conta poupança)
 */
 
 @RestController
@@ -26,11 +26,11 @@ public class ContaController {
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Conta> adicionarConta(@PathVariable Long id){
+    @PostMapping("/{id}/{tipoConta}")
+    public ResponseEntity<Conta> adicionarConta(@PathVariable Long id, @PathVariable String tipoConta){
         Cliente cliente = clienteService.buscarCliente(id);
         if (cliente != null){
-            Conta contaSalva = contaService.salvarConta(cliente);
+            Conta contaSalva = contaService.salvarConta(cliente, tipoConta);
             return ResponseEntity.ok(contaSalva);
         } else  {
             return ResponseEntity.notFound().build();
