@@ -1,7 +1,6 @@
 package br.com.cdb.bancodigital.entity;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 @Entity
 public class Cartao {
@@ -18,7 +17,7 @@ public class Cartao {
     private boolean status = true;
     private int senha;
     private double fatura;
-    private double limiteDiario = 1000;
+    private double limiteDiario = 500;
 
     public long getId() {
         return id;
