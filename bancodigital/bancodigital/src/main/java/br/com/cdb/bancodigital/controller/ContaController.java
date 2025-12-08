@@ -2,18 +2,17 @@ package br.com.cdb.bancodigital.controller;
 
 import br.com.cdb.bancodigital.entity.Cliente;
 import br.com.cdb.bancodigital.entity.Conta;
+import br.com.cdb.bancodigital.entity.exception.ContaNaoEncontradaException;
 import br.com.cdb.bancodigital.service.ClienteService;
 import br.com.cdb.bancodigital.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /*
 #### Conta
-- **POST /contas/{id}/transferencia** - Realizar uma transferência entre contas
 - **POST /contas/{id}/pix**           - Realizar um pagamento via Pix
-- **PUT  /contas/{id}/manutencao**    - Aplicar taxa de manutenção mensal (para conta corrente)
-- **PUT  /contas/{id}/rendimentos**   - Aplicar rendimentos (para conta poupança)
 */
 
 @RestController
@@ -77,5 +76,40 @@ public class ContaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/{id}/transferencia")
+    public ResponseEntity<?> transferir(@PathVariable Long id, @RequestBody Long idtranferencia , @RequestBody double valor){
+
+        Conta conta = contaService.buscarContaPorId(id);
+
+        try{
+            contaService.transferencia(id, idtranferencia , valor);
+            return ResponseEntity.ok(conta);
+        } catch (ContaNaoEncontradaException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{id}/manutencao")
+    public ResponseEntity<?> manutencao(@PathVariable Long id){
+        Conta conta = contaService.buscarContaPorId(id);
+        if (conta != null){
+            return ResponseEntity.ok(contaService.manutencao(id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/rendimentos")
+    public ResponseEntity<?> rendimentos(@PathVariable Long id){
+        Conta conta = contaService.buscarContaPorId(id);
+        if (conta != null){
+            return ResponseEntity.ok(contaService.rendimentos(id));
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 }

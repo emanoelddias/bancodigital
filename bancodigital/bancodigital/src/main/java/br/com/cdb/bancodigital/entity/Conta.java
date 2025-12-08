@@ -55,5 +55,4 @@ public class Conta {
         return tipoConta.name();
     }
 
-
 }

@@ -5,7 +5,6 @@ import br.com.cdb.bancodigital.entity.Conta;
 import br.com.cdb.bancodigital.entity.exception.SaldoInsuficienteException;
 import br.com.cdb.bancodigital.service.CartaoService;
 import br.com.cdb.bancodigital.service.ContaService;
-import jakarta.servlet.http.PushBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
